@@ -1,0 +1,9 @@
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+      - MSSQL_SA_PASSWORD={{TEMPPASS}}
+    ports:
+      - 1443:1443
