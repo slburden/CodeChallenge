@@ -1,0 +1,19 @@
+services:
+  database:
+    image: mysql:8
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: RapidPay
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: adminpass
+
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./scripts/card_details.sql:/docker-entrypoint-initdb.d/1.sql
+      - ./scripts/transactions.sql:/docker-entrypoint-initdb.d/2.sql
+    ports:
+      - 3306:3306
+
+volumes:
+  db-data:
