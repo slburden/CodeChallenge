@@ -11,7 +11,7 @@ namespace RapidPay.DataAccess;
 
 public class DbConnectionFactory : IDbConnectionFactory
 {
-    private readonly string _connectionString;
+    private readonly string? _connectionString;
     private readonly ILogger<DbConnectionFactory> _logger;
 
     public DbConnectionFactory(IConfiguration config, ILogger<DbConnectionFactory> logger)
