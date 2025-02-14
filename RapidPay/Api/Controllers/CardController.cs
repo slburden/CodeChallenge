@@ -32,17 +32,20 @@ namespace RapidPay.Api.Controllers
         /// <param name="limit">An optional float value specifying the spending limit.</param>
         /// <returns>An IActionResult indicating the outcome of the operation.</returns>
         [HttpGet("create")]
-        public async Task<IActionResult> Create([FromQuery] float? limit) {
+        public async Task<IActionResult> Create([FromQuery] float? limit)
+        {
             var rand = new Random();
 
-            var card = new CardDetails() {
+            var card = new CardDetails()
+            {
                 Number = GetRandomCardNumber(),
                 Balance = rand.NextSingle() * (limit ?? 100000),
                 Limit = limit,
                 Active = false
             };
 
-            if(! await _cardRepository.CardExists(card.Number)){
+            if (!await _cardRepository.CardExists(card.Number))
+            {
                 await _cardRepository.InsertCard(card);
             }
 
@@ -52,7 +55,7 @@ namespace RapidPay.Api.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<IActionResult> Update([FromBody]CardDetails details)
+        public async Task<IActionResult> Update([FromBody] CardDetails details)
         {
             await _cardRepository.InsertCard(details);
 
@@ -62,11 +65,13 @@ namespace RapidPay.Api.Controllers
         }
 
 
-        private string GetRandomCardNumber() {
-var chars = "0123456789";
+        private string GetRandomCardNumber()
+        {
+            var chars = "0123456789";
             var data = "";
             var rand = new Random();
-            for (int i =0; i< 15; i++){
+            for (int i = 0; i < 15; i++)
+            {
                 data += chars[rand.Next(0, chars.Length)];
             }
 

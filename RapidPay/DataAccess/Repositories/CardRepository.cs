@@ -7,7 +7,7 @@ namespace RapidPay.DataAccess.Repositories;
 
 public class CardRepository : ICardRepository
 {
-    private const string SelectAll = 
+    private const string SELECTAll =
     @"SELECT 
         cd.`id`, 
         cd.`number`, 
@@ -17,7 +17,7 @@ public class CardRepository : ICardRepository
     FROM
         card_details cd;";
 
-    private const string GetByNumber = 
+    private const string GetByNumber =
     @"SELECT 
         cd.`id`, 
         cd.`number`, 
@@ -29,13 +29,13 @@ public class CardRepository : ICardRepository
     WHERE 
         cd.`number` = ?p_number;";
 
-    private const string DoesCardExist = 
-    @"Select Exists
-        (Select 1
-        from card_details cd
-        where cd.`number` = ?p_number) as record_exists";
+    private const string DoesCardExist =
+    @"SELECT EXISTS
+        (SELECT 1
+        FROM card_details cd
+        WHERE cd.`number` = ?p_number) as record_exists";
 
-    private const string CardInsert = 
+    private const string CardInsert =
     @"INSERT INTO `RapidPay`.`card_details`
         (`number`, `active`, `balance`, `limit`)
     VALUES
@@ -56,8 +56,9 @@ public class CardRepository : ICardRepository
     {
         using var conn = _connectionFactory.CreateConnection();
 
-        return await conn.QuerySingleAsync<bool>(DoesCardExist, 
-            new {
+        return await conn.QuerySingleAsync<bool>(DoesCardExist,
+            new
+            {
                 p_number = number
             });
     }
@@ -65,26 +66,31 @@ public class CardRepository : ICardRepository
     public async Task<IEnumerable<CardDetails>> GetAll()
     {
         using var conn = _connectionFactory.CreateConnection();
-        return await conn.QueryAsync<CardDetails>(SelectAll);
+        return await conn.QueryAsync<CardDetails>(SELECTAll);
     }
 
-    public async Task<CardDetails> GetCardByNumber(string number) {
+    public async Task<CardDetails> GetCardByNumber(string number)
+    {
         using var conn = _connectionFactory.CreateConnection();
-        
-        return await conn.QuerySingleAsync<CardDetails>(GetByNumber, new {
-            p_number = number
-        });
+
+        return await conn.QuerySingleAsync<CardDetails>(GetByNumber, 
+            new
+            {
+                p_number = number
+            });
     }
 
     public async Task InsertCard(CardDetails details)
     {
         using var conn = _connectionFactory.CreateConnection();
 
-        await conn.QueryAsync(CardInsert, new {
-            p_number = details.Number,
-            p_active = details.Active,
-            p_balance = details.Balance,
-            p_limit = details.Limit
-        });
+        await conn.QueryAsync(CardInsert, 
+            new
+            {
+                p_number = details.Number,
+                p_active = details.Active,
+                p_balance = details.Balance,
+                p_limit = details.Limit
+            });
     }
 }
