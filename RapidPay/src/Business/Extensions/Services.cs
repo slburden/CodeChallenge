@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
+using RapidPay.Business.Interfaces;
+using RapidPay.Business.Services;
 using RapidPay.DataAccess.Extensions;
 
 namespace RapidPay.Business.Extensions;
@@ -10,7 +12,8 @@ public static class Services
     {
         services.RegisterDataAccessServices();
 
-
+        services.AddScoped<ICardService, CardService>();
+    
         return services;
     }
 }
