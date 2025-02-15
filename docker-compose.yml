@@ -15,5 +15,17 @@ services:
     ports:
       - 3306:3306
 
+  backend:
+    image:  mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /app
+    volumes:
+      - ./RapidPay/src:/app
+    ports:
+      - "5034:5034"
+      - "7136:7136"
+      - "8080:8080"
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1 
+    command: ["dotnet", "watch", "run", "--project", "Api", "--urls", "http://0.0.0.0:5034"]
 volumes:
   db-data:
