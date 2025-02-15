@@ -73,7 +73,7 @@ public class CardRepository : ICardRepository
     {
         using var conn = _connectionFactory.CreateConnection();
 
-        return await conn.QuerySingleAsync<CardDetails>(GetByNumber, 
+        return await conn.QueryFirstAsync<CardDetails>(GetByNumber,
             new
             {
                 p_number = number
@@ -84,7 +84,7 @@ public class CardRepository : ICardRepository
     {
         using var conn = _connectionFactory.CreateConnection();
 
-        await conn.QueryAsync(CardInsert, 
+        await conn.QueryAsync(CardInsert,
             new
             {
                 p_number = details.Number,

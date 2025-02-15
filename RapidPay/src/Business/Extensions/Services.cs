@@ -13,7 +13,7 @@ public static class Services
         services.RegisterDataAccessServices();
 
         services.AddScoped<ICardService, CardService>();
-    
+
         return services;
     }
 }

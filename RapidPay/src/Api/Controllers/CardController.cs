@@ -29,19 +29,22 @@ namespace RapidPay.Api.Controllers
         }
 
         [HttpGet("balance")]
-        public async Task<IActionResult> GetBalance([FromQuery] string cardnumber){
+        public async Task<IActionResult> GetBalance([FromQuery] string cardnumber)
+        {
             return Ok(await _cardService.GetBalance(cardnumber));
         }
 
         [HttpGet("isauthorized")]
-        public async Task<IActionResult> Authorized([FromQuery] string cardnumber) {
+        public async Task<IActionResult> Authorized([FromQuery] string cardnumber)
+        {
             var card = await _cardService.GetCard(cardnumber);
 
             return Ok(card.Active);
         }
 
         [HttpPost("pay")]
-        public async Task<IActionResult> Pay([FromBody] Payment payment) {
+        public async Task<IActionResult> Pay([FromBody] Payment payment)
+        {
             return Ok(await _cardService.MakePayment(payment));
         }
 

@@ -1,5 +1,5 @@
-﻿using RapidPay.DataAccess.Interfaces;
-using RapidPay.Business.Interfaces;
+﻿using RapidPay.Business.Interfaces;
+using RapidPay.DataAccess.Interfaces;
 using RapidPay.Models;
 
 namespace RapidPay.Business.Services;
@@ -38,14 +38,17 @@ public class CardService : ICardService
     {
         var card = await GetCard(number);
 
-        return new BalanceResult() {
+        return new BalanceResult()
+        {
             Balance = card.Balance,
-            CardNumber = card.Number
+            CardNumber = card.Number,
+            CreditLimit = card.Limit
         };
     }
 
 
-    public async Task<CardDetails> GetCard(string number){
+    public async Task<CardDetails> GetCard(string number)
+    {
         var card = await _cardRepository.GetCardByNumber(number);
 
         return card;
@@ -62,7 +65,8 @@ public class CardService : ICardService
     }
 
 
-    public async Task<CardDetails> UpdateCard(CardDetails card){
+    public async Task<CardDetails> UpdateCard(CardDetails card)
+    {
         await _cardRepository.InsertCard(card);
 
         return await _cardRepository.GetCardByNumber(card.Number);
