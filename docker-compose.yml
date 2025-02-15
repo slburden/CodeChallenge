@@ -15,5 +15,19 @@ services:
     ports:
       - 3306:3306
 
+  backend:
+    build:
+        context: ./RapidPay
+        dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./src:/app
+      - /app/bin
+      - /app/obj
+    environment:
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+    command: ["dotnet", "watch", "--project", "MyApi", "run", "--no-launch-profile", "--urls", "http://0.0.0.0:5000"]
+
 volumes:
   db-data:
