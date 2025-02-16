@@ -80,7 +80,7 @@ public class CardRepository : ICardRepository
             });
     }
 
-    public async Task InsertCard(CardDetails details)
+    public async Task UpsertCard(CardDetails details)
     {
         using var conn = _connectionFactory.CreateConnection();
 

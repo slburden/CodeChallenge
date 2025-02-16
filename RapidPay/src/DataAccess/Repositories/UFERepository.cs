@@ -4,7 +4,7 @@ using RapidPay.Models;
 
 namespace RapidPay.DataAccess.Repositories;
 
-public class UFERepository
+public class UFERepository : IUFERepository
 {
     private const string SelectLast =
     @"SELECT 

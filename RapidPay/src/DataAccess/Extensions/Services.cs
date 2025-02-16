@@ -11,6 +11,8 @@ public static class Services
     {
         services.AddSingleton<IDbConnectionFactory, DbConnectionFactory>();
         services.AddScoped<ICardRepository, CardRepository>();
+        services.AddScoped<IAuthAuditRepository, AuthAuditRepository>();
+        services.AddScoped<IUFERepository, UFERepository>();
 
         return services;
     }

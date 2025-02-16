@@ -8,7 +8,7 @@ public interface ICardRepository
 
     Task<CardDetails> GetCardByNumber(string number);
 
-    Task InsertCard(CardDetails details);
+    Task UpsertCard(CardDetails details);
 
     Task<bool> CardExists(string number);
 }
