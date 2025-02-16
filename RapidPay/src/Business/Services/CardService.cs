@@ -7,9 +7,12 @@ namespace RapidPay.Business.Services;
 public class CardService : ICardService
 {
     private readonly ICardRepository _cardRepository;
-    public CardService(ICardRepository cardRepository)
+    private readonly IPaymentAuthService _paymentAuthService;
+
+    public CardService(ICardRepository cardRepository, IPaymentAuthService paymentAuthService)
     {
         _cardRepository = cardRepository;
+        _paymentAuthService = paymentAuthService;
     }
 
     public async Task<CardDetails> CreateNewCard(float? limit)
@@ -56,30 +59,7 @@ public class CardService : ICardService
 
     public async Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, float amount)
     {
-        var card = await GetCard(cardnumber);
-
-        if (!card.Active)
-        {
-            return new AuthorizationResult()
-            {
-                Authorized = false,
-                DenialReason = "Card not activated"
-            };
-        }
-
-        if (card.Balance + amount > card.Limit)
-        {
-            return new AuthorizationResult()
-            {
-                Authorized = false,
-                DenialReason = "Insufficient funds"
-            };
-        }
-
-        return new AuthorizationResult()
-        {
-            Authorized = true
-        };
+        return await _paymentAuthService.AuthorizeCard(cardnumber, amount);
     }
 
     public async Task<CardDetails> MakePayment(Payment payment)
@@ -87,7 +67,7 @@ public class CardService : ICardService
         var card = await _cardRepository.GetCardByNumber(payment.CardNumber);
 
         // TODO: Apply fees
-        card.Balance -= payment.Amount;
+        card.Balance += payment.Amount;
 
         return await UpdateCard(card);
     }

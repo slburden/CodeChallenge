@@ -5,7 +5,7 @@ namespace RapidPay.Models;
 public class AuthAuditRecord
 {
     [Required]
-    public string CardNumber { get; set; }
+    public required string CardNumber { get; set; }
 
     public float Amount { get; set; }
 

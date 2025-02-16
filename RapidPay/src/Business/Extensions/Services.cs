@@ -12,6 +12,7 @@ public static class Services
     {
         services.RegisterDataAccessServices();
 
+        services.AddScoped<IPaymentAuthService, PaymentAuthService>();
         services.AddScoped<ICardService, CardService>();
 
         return services;
