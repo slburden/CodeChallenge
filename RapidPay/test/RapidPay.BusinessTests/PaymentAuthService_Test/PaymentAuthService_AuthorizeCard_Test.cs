@@ -26,7 +26,7 @@ namespace Tests
                     new CardDetails(){
                         Number = "599180382130527",
                         Active = true,
-                        Balance=225.0f,
+                        Balance=225.0m,
                         Limit=1000
                     }
                 },
@@ -35,7 +35,7 @@ namespace Tests
                     new CardDetails() {
                         Number = "123456789012345",
                         Active = false,
-                        Balance = 345.0f,
+                        Balance = 345.0m,
                         Limit = 25000
                     }
                 },
@@ -44,7 +44,7 @@ namespace Tests
                     new CardDetails() {
                         Number = "606481876887782",
                         Active = true,
-                        Balance = 1345.0f,
+                        Balance = 1345.0m,
                         Limit = null
                     }
                 }
@@ -68,7 +68,7 @@ namespace Tests
         [TestCase("599180382130527", 900, false)]
         [TestCase("123456789012345", 500, false)]
         [TestCase("606481876887782", 7000, true)]
-        public async Task Authorize_Payment_Test(string cardnum, float amount, bool exppected)
+        public async Task Authorize_Payment_Test(string cardnum, decimal amount, bool exppected)
         {
             var service = new PaymentAuthService(_authAuditService, _cardRepository);
 

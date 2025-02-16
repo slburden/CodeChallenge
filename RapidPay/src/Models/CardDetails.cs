@@ -12,7 +12,7 @@ public class CardDetails
 
     public bool Active { get; set; }
 
-    public float Balance { get; set; }
+    public decimal Balance { get; set; }
 
-    public float? Limit { get; set; }
+    public decimal? Limit { get; set; }
 }

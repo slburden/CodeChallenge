@@ -4,11 +4,11 @@ namespace RapidPay.Business.Interfaces;
 
 public interface ICardService
 {
-    Task<CardDetails> CreateNewCard(float? limit);
+    Task<CardDetails> CreateNewCard(decimal? limit);
 
     Task<CardDetails> GetCard(string number);
 
-    Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, float amount);
+    Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, decimal amount);
 
     Task<CardDetails> UpdateCard(CardDetails card);
 

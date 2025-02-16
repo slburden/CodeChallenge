@@ -18,7 +18,7 @@ public class CardService : ICardService
         _uFEService = uFEService;
     }
 
-    public async Task<CardDetails> CreateNewCard(float? limit)
+    public async Task<CardDetails> CreateNewCard(decimal? limit)
     {
         var rand = new Random();
 
@@ -32,7 +32,7 @@ public class CardService : ICardService
         var card = new CardDetails()
         {
             Number = cardNum,
-            Balance = rand.NextSingle() * (limit ?? 100000),
+            Balance = (decimal)rand.NextDouble() * (limit ?? 100000),
             Limit = limit,
             Active = false
         };
@@ -64,7 +64,7 @@ public class CardService : ICardService
         return card;
     }
 
-    public async Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, float amount)
+    public async Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, decimal amount)
     {
         return await _paymentAuthService.AuthorizeCard(cardnumber, amount);
     }

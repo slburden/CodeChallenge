@@ -15,7 +15,7 @@ public class PaymentAuthService : IPaymentAuthService
         _cardRepository = cardRepository;
     }
 
-    public async Task<AuthorizationResult> AuthorizeCard(string cardnumber, float amount)
+    public async Task<AuthorizationResult> AuthorizeCard(string cardnumber, decimal amount)
     {
         var card = await _cardRepository.GetCardByNumber(cardnumber);
         var result = new AuthorizationResult()

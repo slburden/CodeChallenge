@@ -47,7 +47,7 @@ namespace RapidPay.BusinessTests
         }
 
         [Test]
-        public async Task CardHas_Null_Limit_Test()
+        public async Task Card_Limit_Has_Null_Limit_Test()
         {
             var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
 
@@ -59,7 +59,7 @@ namespace RapidPay.BusinessTests
         [Test]
         [TestCase(15000)]
         [TestCase(1000)]
-        public async Task CardHas_Value_Limit_Test(float expected)
+        public async Task Card_Limit_Has_Value_Limit_Test(decimal expected)
         {
             var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
 

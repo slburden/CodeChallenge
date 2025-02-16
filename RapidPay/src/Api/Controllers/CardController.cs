@@ -21,7 +21,7 @@ namespace RapidPay.Api.Controllers
         }
 
         [HttpGet("create")]
-        public async Task<IActionResult> Create([FromQuery] float? limit)
+        public async Task<IActionResult> Create([FromQuery] decimal? limit)
         {
             return Ok(await _cardService.CreateNewCard(limit));
         }
@@ -33,7 +33,7 @@ namespace RapidPay.Api.Controllers
         }
 
         [HttpGet("isauthorized")]
-        public async Task<IActionResult> Authorized([FromQuery] string cardnumber, float amount)
+        public async Task<IActionResult> Authorized([FromQuery] string cardnumber, decimal amount)
         {
             return Ok(await _cardService.IsPaymentAuthorized(cardnumber, amount));
         }

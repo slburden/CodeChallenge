@@ -5,5 +5,5 @@ public interface IUFERepository
 {
     Task<UfeRate> GetLastRate();
 
-    Task InsertRate(float oldRate);
+    Task InsertRate(decimal oldRate);
 }

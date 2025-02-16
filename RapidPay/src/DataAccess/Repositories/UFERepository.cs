@@ -28,7 +28,7 @@ public class UFERepository : IUFERepository
     {
         _connectionFactory = connectionFactory;
     }
-    
+
     public async Task<UfeRate> GetLastRate()
     {
         using var conn = _connectionFactory.CreateConnection();
@@ -38,14 +38,14 @@ public class UFERepository : IUFERepository
         if (result == null) 
         {
             // Only happens when no rates exist
-            await InsertRate(1f);
+            await InsertRate(1.0m);
             result = await conn.QueryFirstAsync<UfeRate>(SelectLast);
         }
        
         return result;
     }
 
-    public async Task InsertRate(float oldRate)
+    public async Task InsertRate(decimal oldRate)
     {
         using var conn = _connectionFactory.CreateConnection();
 

@@ -27,7 +27,7 @@ namespace Tests
                     new CardDetails(){
                         Number = "599180382130527",
                         Active = true,
-                        Balance=225.0f,
+                        Balance=225.0m,
                         Limit=1000
                     }
                 },
@@ -36,7 +36,7 @@ namespace Tests
                     new CardDetails() {
                         Number = "123456789012345",
                         Active = true,
-                        Balance = 345.0f,
+                        Balance = 345.0m,
                         Limit = 25000
                     }
                 },
@@ -45,7 +45,7 @@ namespace Tests
                     new CardDetails() {
                         Number = "606481876887782",
                         Active = true,
-                        Balance = 1345.0f,
+                        Balance = 1345.0m,
                         Limit = null
                     }
                 }
@@ -64,10 +64,10 @@ namespace Tests
         }
 
         [Test]
-        [TestCase("606481876887782", 1345.0f, null)]
-        [TestCase("123456789012345", 345.0f, 25000f)]
-        [TestCase("599180382130527", 225.0f, 1000f)]
-        public async Task Card_Get_Balance_Test(string cardnum, float balance, float? limit)
+        [TestCase("606481876887782", 1345.0, null)]
+        [TestCase("123456789012345", 345.0, 25000)]
+        [TestCase("599180382130527", 225.0, 1000)]
+        public async Task Card_Get_Balance_Test(string cardnum, decimal balance, decimal? limit)
         {
             var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
 
