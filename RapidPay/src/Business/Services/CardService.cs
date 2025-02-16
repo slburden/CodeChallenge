@@ -19,18 +19,22 @@ public class CardService : ICardService
     {
         var rand = new Random();
 
+        var cardNum = GetRandomCardNumber();
+
+        while (await _cardRepository.CardExists(cardNum))
+        {
+            // Double checks to make sure our new "random" card number is unique
+        }
+
         var card = new CardDetails()
         {
-            Number = GetRandomCardNumber(),
+            Number = cardNum,
             Balance = rand.NextSingle() * (limit ?? 100000),
             Limit = limit,
             Active = false
         };
 
-        if (!await _cardRepository.CardExists(card.Number))
-        {
-            await _cardRepository.UpsertCard(card);
-        }
+        await _cardRepository.UpsertCard(card);
 
         var result = await _cardRepository.GetCardByNumber(card.Number);
 
