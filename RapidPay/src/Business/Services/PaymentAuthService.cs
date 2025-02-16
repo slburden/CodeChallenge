@@ -32,13 +32,16 @@ public class PaymentAuthService : IPaymentAuthService
             };
         }
 
-        if (card.Balance + amount > card.Limit)
+        if (card.Limit != null)
         {
-            result = new AuthorizationResult()
+            if (card.Balance + amount > card.Limit)
             {
-                Authorized = false,
-                DenialReason = "Insufficient funds"
-            };
+                result = new AuthorizationResult()
+                {
+                    Authorized = false,
+                    DenialReason = "Insufficient funds"
+                };
+            }
         }
 
         await _authAuditRepository.InsertAudit(new AuthAuditRecord()
