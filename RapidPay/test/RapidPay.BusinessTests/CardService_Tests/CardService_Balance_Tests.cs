@@ -13,8 +13,10 @@ namespace Tests
 {
     public class CardService_Balance_Tests
     {
-        private ICardRepository _cardRepository;
-        private IPaymentAuthService _paymentAuthService;
+        private Mock<ICardRepository> _cardRepositoryMock;
+        private Mock<IPaymentAuthService> _paymentAuthServiceMock;
+
+        private Mock<IUFEService> _ufeServiceMock;
 
         [SetUp]
         public void Setup()
@@ -50,17 +52,15 @@ namespace Tests
             };
 
 
-            var cardRepoMock = new Mock<ICardRepository>();
-            cardRepoMock.Setup(c => c.GetCardByNumber(It.IsAny<string>())).Returns((string c) =>
+            _cardRepositoryMock = new Mock<ICardRepository>();
+            _cardRepositoryMock.Setup(c => c.GetCardByNumber(It.IsAny<string>())).Returns((string c) =>
             {
                 return Task.FromResult(dict[c]);
             });
 
 
-            var paymentAuthMock = new Mock<IPaymentAuthService>();
-
-            _cardRepository = cardRepoMock.Object;
-            _paymentAuthService = paymentAuthMock.Object;
+            _paymentAuthServiceMock = new Mock<IPaymentAuthService>();
+            _ufeServiceMock = new Mock<IUFEService>();
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace Tests
         [TestCase("599180382130527", 225.0f, 1000f)]
         public async Task Card_Get_Balance_Test(string cardnum, float balance, float? limit)
         {
-            var service = new CardService(_cardRepository, _paymentAuthService);
+            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
 
 
             var result = await service.GetBalance(cardnum);

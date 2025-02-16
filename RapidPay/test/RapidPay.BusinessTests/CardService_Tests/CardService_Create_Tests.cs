@@ -11,16 +11,19 @@ namespace RapidPay.BusinessTests
 {
     public class CardService_Create_Tests
     {
-        private ICardRepository _cardRepository;
-        private IPaymentAuthService _paymentAuthService;
+        private Mock<ICardRepository> _cardRepositoryMock;
+        private Mock<IPaymentAuthService> _paymentAuthServiceMock;
+
+        private Mock<IUFEService> _ufeServiceMock;
+
         [SetUp]
         public void Setup()
         {
             var dict = new Dictionary<string, CardDetails>();
 
-            var cardRepoMock = new Mock<ICardRepository>();
-            cardRepoMock.Setup(c => c.CardExists(It.IsAny<string>())).Returns(Task.FromResult<bool>(false));
-            cardRepoMock.Setup(c => c.UpsertCard(It.IsAny<CardDetails>())).Returns((CardDetails c) =>
+            _cardRepositoryMock = new Mock<ICardRepository>();
+            _cardRepositoryMock.Setup(c => c.CardExists(It.IsAny<string>())).Returns(Task.FromResult<bool>(false));
+            _cardRepositoryMock.Setup(c => c.UpsertCard(It.IsAny<CardDetails>())).Returns((CardDetails c) =>
             {
                 if (!dict.ContainsKey(c.Number))
                 {
@@ -34,21 +37,19 @@ namespace RapidPay.BusinessTests
 
                 return Task.FromResult(dict[c.Number]);
             });
-            cardRepoMock.Setup(c => c.GetCardByNumber(It.IsAny<string>())).Returns((string c) =>
+            _cardRepositoryMock.Setup(c => c.GetCardByNumber(It.IsAny<string>())).Returns((string c) =>
             {
                 return Task.FromResult(dict[c]);
             });
 
-            var paymentAuthMock = new Mock<IPaymentAuthService>();
-
-            _cardRepository = cardRepoMock.Object;
-            _paymentAuthService = paymentAuthMock.Object;
+            _paymentAuthServiceMock = new Mock<IPaymentAuthService>();
+            _ufeServiceMock = new Mock<IUFEService>();
         }
 
         [Test]
         public async Task CardHas_Null_Limit_Test()
         {
-            var service = new CardService(_cardRepository, _paymentAuthService);
+            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
 
             var card = await service.CreateNewCard(null);
 
@@ -60,7 +61,7 @@ namespace RapidPay.BusinessTests
         [TestCase(1000)]
         public async Task CardHas_Value_Limit_Test(float expected)
         {
-            var service = new CardService(_cardRepository, _paymentAuthService);
+            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
 
             var card = await service.CreateNewCard(expected);
 
