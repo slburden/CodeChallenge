@@ -9,10 +9,13 @@ public class CardService : ICardService
     private readonly ICardRepository _cardRepository;
     private readonly IPaymentAuthService _paymentAuthService;
 
-    public CardService(ICardRepository cardRepository, IPaymentAuthService paymentAuthService)
+    private readonly IUFEService _uFEService;
+
+    public CardService(ICardRepository cardRepository, IPaymentAuthService paymentAuthService, IUFEService uFEService)
     {
         _cardRepository = cardRepository;
         _paymentAuthService = paymentAuthService;
+        _uFEService = uFEService;
     }
 
     public async Task<CardDetails> CreateNewCard(float? limit)
@@ -70,8 +73,9 @@ public class CardService : ICardService
     {
         var card = await _cardRepository.GetCardByNumber(payment.CardNumber);
 
-        // TODO: Apply fees
-        card.Balance += payment.Amount;
+        var rate = await _uFEService.GetRate();
+
+        card.Balance += payment.Amount + rate.Rate;
 
         return await UpdateCard(card);
     }
