@@ -1,5 +1,5 @@
-﻿using RapidPay.DataAccess.Interfaces;
-using RapidPay.Business.Interfaces;
+﻿using RapidPay.Business.Interfaces;
+using RapidPay.DataAccess.Interfaces;
 
 namespace RapidPay.Business.Services;
 

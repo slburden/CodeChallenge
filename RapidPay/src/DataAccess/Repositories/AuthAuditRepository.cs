@@ -8,7 +8,7 @@ namespace RapidPay.DataAccess;
 
 public class AuthAuditRepository : IAuthAuditRepository
 {
-    private const string InsertCommand = 
+    private const string InsertCommand =
     @"INSERT INTO `audit_authorization`
         (`card_number`,
         `auth_time`,
@@ -28,7 +28,8 @@ public class AuthAuditRepository : IAuthAuditRepository
     {
         using var conn = _connectionFactory.CreateConnection();
 
-        await conn.QueryAsync(InsertCommand, new {
+        await conn.QueryAsync(InsertCommand, new
+        {
             p_card_number = record.CardNumber,
             p_auth_amount = record.Amount,
             p_auth_approved = record.Approved,

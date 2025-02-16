@@ -2,7 +2,7 @@
 
 public class AuthorizationResult
 {
-    public bool Authorized {get; set;}
+    public bool Authorized { get; set; }
 
-    public string? DenialReason {get;set;}
+    public string? DenialReason { get; set; }
 }

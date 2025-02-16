@@ -54,24 +54,30 @@ public class CardService : ICardService
         return card;
     }
 
-    public async Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, float amount) {
+    public async Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, float amount)
+    {
         var card = await GetCard(cardnumber);
 
-        if (!card.Active) {
-            return new AuthorizationResult() {
+        if (!card.Active)
+        {
+            return new AuthorizationResult()
+            {
                 Authorized = false,
                 DenialReason = "Card not activated"
             };
         }
 
-        if (card.Balance + amount > card.Limit) {
-            return new AuthorizationResult() {
+        if (card.Balance + amount > card.Limit)
+        {
+            return new AuthorizationResult()
+            {
                 Authorized = false,
                 DenialReason = "Insufficient funds"
             };
         }
 
-        return new AuthorizationResult(){
+        return new AuthorizationResult()
+        {
             Authorized = true
         };
     }

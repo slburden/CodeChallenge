@@ -1,4 +1,5 @@
 ﻿using Dapper;
+
 using RapidPay.DataAccess.Interfaces;
 using RapidPay.Models;
 
@@ -23,7 +24,8 @@ public class UFERepository : IUFERepository
         _connectionFactory = connectionFactory;
     }
 
-    public async Task<UfeRate> GetLastRate() {
+    public async Task<UfeRate> GetLastRate()
+    {
         using var conn = _connectionFactory.CreateConnection();
 
         return await conn.QueryFirstAsync<UfeRate>(SelectLast);
