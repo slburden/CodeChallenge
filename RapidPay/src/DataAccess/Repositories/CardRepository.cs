@@ -9,7 +9,6 @@ public class CardRepository : ICardRepository
 {
     private const string SELECTAll =
     @"SELECT 
-        cd.`id`, 
         cd.`number`, 
         cd.`active`, 
         cd.`balance`, 
@@ -19,7 +18,6 @@ public class CardRepository : ICardRepository
 
     private const string GetByNumber =
     @"SELECT 
-        cd.`id`, 
         cd.`number`, 
         cd.`active`, 
         cd.`balance`, 
