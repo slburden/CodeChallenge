@@ -21,7 +21,6 @@ public class UFEService : IUFEService
 
             await _uFERepository.InsertRate(rate.Rate);
             rate = await _uFERepository.GetLastRate();
-
         }
 
         return rate;
