@@ -12,17 +12,17 @@ namespace RapidPay.BusinessTests;
 
 public class CardService_Make_Payment_Tests
 {
-        private Mock<ICardRepository> _cardRepositoryMock;
-        private Mock<IPaymentAuthService> _paymentAuthServiceMock;
+    private Mock<ICardRepository> _cardRepositoryMock;
+    private Mock<IPaymentAuthService> _paymentAuthServiceMock;
 
-        private Mock<IUFEService> _ufeServiceMock;
+    private Mock<IUFEService> _ufeServiceMock;
 
-        private readonly decimal _expectedRate = 1.414m;
+    private readonly decimal _expectedRate = 1.414m;
 
-        [SetUp]
-        public void Setup()
-        {
-             var dict = new Dictionary<string, CardDetails>(){
+    [SetUp]
+    public void Setup()
+    {
+        var dict = new Dictionary<string, CardDetails>(){
                 {
                     "599180382130527",
                     new CardDetails(){
@@ -53,40 +53,43 @@ public class CardService_Make_Payment_Tests
             };
 
 
-            _cardRepositoryMock = new Mock<ICardRepository>();
-             _cardRepositoryMock.Setup(c => c.GetCardByNumber(It.IsAny<string>())).Returns((string c) =>
-            {
-                return Task.FromResult(dict[c]);
-            });
+        _cardRepositoryMock = new Mock<ICardRepository>();
+        _cardRepositoryMock.Setup(c => c.GetCardByNumber(It.IsAny<string>())).Returns((string c) =>
+       {
+           return Task.FromResult(dict[c]);
+       });
 
-            _paymentAuthServiceMock = new Mock<IPaymentAuthService>();
+        _paymentAuthServiceMock = new Mock<IPaymentAuthService>();
 
-            _ufeServiceMock = new Mock<IUFEService>();
-            _ufeServiceMock.Setup(c => c.GetRate()).Returns(() => {
-                var rate = new UfeRate(){
-                    TimeStamp = DateTime.Now,
-                    Rate = _expectedRate
-                };
-                return Task.FromResult(rate);
-            });
-        }
-
-        [Test]
-        [TestCase("606481876887782", 1345.0, 225.0)]
-        [TestCase("123456789012345", 345.0, 234.45)]
-        [TestCase("599180382130527", 225.0, 1376.5)]
-        public async Task Make_Payment_Test(string cardnum, decimal startBalance, decimal amount)
+        _ufeServiceMock = new Mock<IUFEService>();
+        _ufeServiceMock.Setup(c => c.GetRate()).Returns(() =>
         {
-            var cardService = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
+            var rate = new UfeRate()
+            {
+                TimeStamp = DateTime.Now,
+                Rate = _expectedRate
+            };
+            return Task.FromResult(rate);
+        });
+    }
 
-            var result = await cardService.MakePayment(new Payment() {
-                CardNumber = cardnum,
-                Amount = amount
-            });
+    [Test]
+    [TestCase("606481876887782", 1345.0, 225.0)]
+    [TestCase("123456789012345", 345.0, 234.45)]
+    [TestCase("599180382130527", 225.0, 1376.5)]
+    public async Task Make_Payment_Test(string cardnum, decimal startBalance, decimal amount)
+    {
+        var cardService = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
 
-            var expectedBalance = startBalance + amount + _expectedRate;
+        var result = await cardService.MakePayment(new Payment()
+        {
+            CardNumber = cardnum,
+            Amount = amount
+        });
 
-            Assert.That(result.Number, Is.EqualTo(cardnum));
-            Assert.That(result.Balance, Is.EqualTo(expectedBalance));
-        }
+        var expectedBalance = startBalance + amount + _expectedRate;
+
+        Assert.That(result.Number, Is.EqualTo(cardnum));
+        Assert.That(result.Balance, Is.EqualTo(expectedBalance));
+    }
 }
