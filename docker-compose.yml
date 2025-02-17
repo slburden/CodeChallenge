@@ -10,9 +10,7 @@ services:
 
     volumes:
       - db-data:/var/lib/mysql
-      - ./scripts/card_details.sql:/docker-entrypoint-initdb.d/1.sql
-      - ./scripts/transactions.sql:/docker-entrypoint-initdb.d/2.sql
-      - ./scripts/ufe_rates.sql:/docker-entrypoint-initdb.d/3.sql
+      - ./scripts/RapidPay_dump.sql:/docker-entrypoint-initdb.d/1.sql
     ports:
       - 3306:3306
 

@@ -16,6 +16,23 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `audit_authorization`
+--
+
+DROP TABLE IF EXISTS `audit_authorization`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `audit_authorization` (
+  `card_number` char(15) NOT NULL,
+  `auth_time` timestamp NOT NULL,
+  `auth_amount` float NOT NULL,
+  `auth_approved` tinyint DEFAULT NULL,
+  `auth_denial_reason` text,
+  PRIMARY KEY (`card_number`,`auth_time`,`auth_amount`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `card_details`
 --
 
@@ -24,30 +41,27 @@ DROP TABLE IF EXISTS `card_details`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `card_details` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `number` char(15) NOT NULL,
+  `number` varchar(15) NOT NULL,
   `active` tinyint DEFAULT '0',
   `balance` float DEFAULT '0',
   `limit` float DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `unq_card_details_number_01` (`number`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `number_UNIQUE` (`number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
 --
--- Table structure for table `transaction`
+-- Table structure for table `ufe_rates`
 --
 
-DROP TABLE IF EXISTS `transaction`;
+DROP TABLE IF EXISTS `ufe_rates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `transaction` (
-  `id` int NOT NULL,
-  `card_id` int NOT NULL,
-  `charge_time` varchar(45) NOT NULL DEFAULT 'NOW()',
-  `amount` float DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_transaction_01_idx` (`card_id`),
-  CONSTRAINT `fk_transaction_01` FOREIGN KEY (`card_id`) REFERENCES `card_details` (`id`)
+CREATE TABLE `ufe_rates` (
+  `rate_timestamp` datetime NOT NULL,
+  `fee_rate` float NOT NULL,
+  PRIMARY KEY (`rate_timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +74,4 @@ CREATE TABLE `transaction` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-02-14 22:04:14
+-- Dump completed on 2025-02-17 14:55:25

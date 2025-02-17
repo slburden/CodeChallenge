@@ -33,7 +33,7 @@ public class UFERepository : IUFERepository
     {
         using var conn = _connectionFactory.CreateConnection();
 
-        var result = await conn.QueryFirstAsync<UfeRate>(SelectLast);
+        var result = await conn.QueryFirstOrDefaultAsync<UfeRate>(SelectLast);
 
         if (result == null)
         {
