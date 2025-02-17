@@ -13,55 +13,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.RegisterApiServices();
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "RapidPay",
-        Version = "v1"
-    });
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please insert JWT with Bearer into field",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-   {
-     new OpenApiSecurityScheme
-     {
-       Reference = new OpenApiReference
-       {
-         Type = ReferenceType.SecurityScheme,
-         Id = "Bearer"
-       }
-      },
-      new string[] { }
-    }
-  });
-});
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(jwtOptions =>
-    {
-        jwtOptions.Authority = "http://localhost:5034";
-        jwtOptions.RequireHttpsMetadata = false;
-        jwtOptions.Events = new JwtBearerEvents()
-        {
 
-        };
-        jwtOptions.TokenValidationParameters = new TokenValidationParameters
-        {
-            LogValidationExceptions = true,
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = "dotnet-users-jwt", // your issuer,
-            ValidAudience = "http://localhost:5034" // your audience
-        };
-    });
+builder.Services.BuildJwtAuthentication(jwtSettings);
 
 var app = builder.Build();
 
@@ -73,6 +28,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
