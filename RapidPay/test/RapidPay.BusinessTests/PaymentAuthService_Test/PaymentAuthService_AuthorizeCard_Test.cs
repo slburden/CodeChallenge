@@ -1,8 +1,4 @@
-using System.Threading.Tasks;
-
 using Moq;
-
-using NUnit.Framework;
 
 using RapidPay.Business.Interfaces;
 using RapidPay.Business.Services;
@@ -75,13 +71,13 @@ namespace Tests
         [TestCase("599180382130527", 900, false)]
         [TestCase("123456789012345", 500, false)]
         [TestCase("606481876887782", 7000, true)]
-        public async Task Authorize_Payment_Test(string cardnum, decimal amount, bool exppected)
+        public async Task Authorize_Payment_Test(string cardnum, decimal amount, bool expected)
         {
             var service = new PaymentAuthService(_authAuditService, _cardRepository, _transactionService);
 
             var results = await service.AuthorizeCard(cardnum, amount);
 
-            Assert.That(results.Authorized, Is.EqualTo(exppected));
+            Assert.That(results.Authorized, Is.EqualTo(expected));
         }
     }
 }
