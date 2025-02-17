@@ -17,7 +17,8 @@ public class UFEService : IUFEService
     {
         var rate = await _uFERepository.GetLastRate();
 
-        if (rate.TimeStamp < DateTime.Now.AddHours(-1)){
+        if (rate.TimeStamp < DateTime.Now.AddHours(-1))
+        {
 
             await _uFERepository.InsertRate(rate.Rate);
             rate = await _uFERepository.GetLastRate();

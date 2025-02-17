@@ -24,8 +24,10 @@ builder.Services.AddSwaggerGen(c =>
     {
         In = ParameterLocation.Header,
         Description = "Please insert JWT with Bearer into field",
-        Name = "Bearer",
-        Type = SecuritySchemeType.ApiKey
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
    {
@@ -45,7 +47,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(jwtOptions =>
     {
-        jwtOptions.Events = new JwtBearerEvents() {
+        jwtOptions.Authority = "http://localhost:5034";
+        jwtOptions.RequireHttpsMetadata = false;
+        jwtOptions.Events = new JwtBearerEvents()
+        {
 
         };
         jwtOptions.TokenValidationParameters = new TokenValidationParameters
@@ -53,8 +58,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             LogValidationExceptions = true,
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidIssuer = "https://my-issuer", // your issuer,  
-            ValidAudience = "https://my-audience" // your audience
+            ValidIssuer = "dotnet-users-jwt", // your issuer,
+            ValidAudience = "http://localhost:5034" // your audience
         };
     });
 
