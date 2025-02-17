@@ -48,11 +48,13 @@ public class PaymentAuthService : IPaymentAuthService
             }
         }
 
-        if (result.Authorized && await _transactionService.TransactionExists(cardnumber, amount)) {
-              result = new AuthorizationResult{
+        if (result.Authorized && await _transactionService.TransactionExists(cardnumber, amount))
+        {
+            result = new AuthorizationResult
+            {
                 Authorized = false,
                 DenialReason = "Duplicate Transaction"
-              };
+            };
         }
 
         await _authAuditRepository.InsertAudit(new AuthAuditRecord()

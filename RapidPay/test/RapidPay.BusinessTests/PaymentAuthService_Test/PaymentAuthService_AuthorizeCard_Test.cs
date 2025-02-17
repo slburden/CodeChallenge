@@ -63,7 +63,7 @@ namespace Tests
             authMock.Setup(c => c.InsertAudit(It.IsAny<AuthAuditRecord>()));
 
             var transactionMock = new Mock<ITransactionService>();
-            transactionMock.Setup(c=> c.TransactionExists(It.IsAny<string>(), It.IsAny<decimal>()))
+            transactionMock.Setup(c => c.TransactionExists(It.IsAny<string>(), It.IsAny<decimal>()))
             .Returns((string c, decimal a) => Task.FromResult<bool>(false));
 
             _cardRepository = cardRepoMock.Object;

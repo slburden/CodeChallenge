@@ -16,7 +16,7 @@ public class UFERepository : IUFERepository
     ORDER BY u.rate_timestamp DESC
     LIMIT 1;";
 
-    private const string AddNewRate = 
+    private const string AddNewRate =
     @"INSERT INTO `ufe_rates`
         (`rate_timestamp`, `fee_rate`)
         VALUES
@@ -35,13 +35,13 @@ public class UFERepository : IUFERepository
 
         var result = await conn.QueryFirstOrDefaultAsync<UfeRate>(SelectLast);
 
-        if (result == null) 
+        if (result == null)
         {
             // Only happens when no rates exist
             await InsertRate(1.0m);
             result = await conn.QueryFirstAsync<UfeRate>(SelectLast);
         }
-       
+
         return result;
     }
 
@@ -49,7 +49,8 @@ public class UFERepository : IUFERepository
     {
         using var conn = _connectionFactory.CreateConnection();
 
-        await conn.QueryAsync(AddNewRate, new {
+        await conn.QueryAsync(AddNewRate, new
+        {
             p_lastrate = oldRate
         });
     }

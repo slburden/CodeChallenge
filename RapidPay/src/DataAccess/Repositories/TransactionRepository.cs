@@ -19,7 +19,7 @@ public class TransactionRepository : ITransactionRepository
         (?p_cardnumber, ?p_amount, ?p_fee);";
 
 
-    private const string CheckForDuplicateQuery = 
+    private const string CheckForDuplicateQuery =
     @"SELECT 
     EXISTS( SELECT 
             1
@@ -58,13 +58,15 @@ public class TransactionRepository : ITransactionRepository
         }
     }
 
-    public async Task<bool> TransactionExists(string cardnumber, decimal amount) {
+    public async Task<bool> TransactionExists(string cardnumber, decimal amount)
+    {
 
         using var conn = _connectionFactory.CreateConnection();
 
-        return await conn.QueryFirstAsync<bool>(CheckForDuplicateQuery, new {
-                p_cardnumber = cardnumber,
-                p_amount = amount,
-            });
+        return await conn.QueryFirstAsync<bool>(CheckForDuplicateQuery, new
+        {
+            p_cardnumber = cardnumber,
+            p_amount = amount,
+        });
     }
 }
