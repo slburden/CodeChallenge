@@ -9,10 +9,14 @@ public class PaymentAuthService : IPaymentAuthService
 {
     private readonly IAuthAuditRepository _authAuditRepository;
     private readonly ICardRepository _cardRepository;
-    public PaymentAuthService(IAuthAuditRepository authAuditRepository, ICardRepository cardRepository)
+
+    private readonly ITransactionService _transactionService;
+
+    public PaymentAuthService(IAuthAuditRepository authAuditRepository, ICardRepository cardRepository, ITransactionService transactionService)
     {
         _authAuditRepository = authAuditRepository;
         _cardRepository = cardRepository;
+        _transactionService = transactionService;
     }
 
     public async Task<AuthorizationResult> AuthorizeCard(string cardnumber, decimal amount)
@@ -42,6 +46,13 @@ public class PaymentAuthService : IPaymentAuthService
                     DenialReason = "Insufficient funds"
                 };
             }
+        }
+
+        if (result.Authorized && await _transactionService.TransactionExists(cardnumber, amount)) {
+              result = new AuthorizationResult{
+                Authorized = false,
+                DenialReason = "Duplicate Transaction"
+              };
         }
 
         await _authAuditRepository.InsertAudit(new AuthAuditRecord()

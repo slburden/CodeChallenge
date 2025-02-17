@@ -13,6 +13,7 @@ public static class Services
         services.AddScoped<ICardRepository, CardRepository>();
         services.AddScoped<IAuthAuditRepository, AuthAuditRepository>();
         services.AddScoped<IUFERepository, UFERepository>();
+        services.AddScoped<ITransactionRepository, TransactionRepository>();
 
         return services;
     }

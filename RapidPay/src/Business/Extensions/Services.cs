@@ -15,6 +15,7 @@ public static class Services
         services.AddScoped<IPaymentAuthService, PaymentAuthService>();
         services.AddScoped<ICardService, CardService>();
         services.AddScoped<IUFEService, UFEService>();
+        services.AddScoped<ITransactionService, TransactionService>();
 
         return services;
     }

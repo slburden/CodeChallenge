@@ -17,6 +17,8 @@ namespace Tests
         private ICardRepository _cardRepository;
         private IAuthAuditRepository _authAuditService;
 
+        private ITransactionService _transactionService;
+
         [SetUp]
         public void Setup()
         {
@@ -60,8 +62,13 @@ namespace Tests
             var authMock = new Mock<IAuthAuditRepository>();
             authMock.Setup(c => c.InsertAudit(It.IsAny<AuthAuditRecord>()));
 
+            var transactionMock = new Mock<ITransactionService>();
+            transactionMock.Setup(c=> c.TransactionExists(It.IsAny<string>(), It.IsAny<decimal>()))
+            .Returns((string c, decimal a) => Task.FromResult<bool>(false));
+
             _cardRepository = cardRepoMock.Object;
             _authAuditService = authMock.Object;
+            _transactionService = transactionMock.Object;
         }
 
         [Test]
@@ -70,7 +77,7 @@ namespace Tests
         [TestCase("606481876887782", 7000, true)]
         public async Task Authorize_Payment_Test(string cardnum, decimal amount, bool exppected)
         {
-            var service = new PaymentAuthService(_authAuditService, _cardRepository);
+            var service = new PaymentAuthService(_authAuditService, _cardRepository, _transactionService);
 
             var results = await service.AuthorizeCard(cardnum, amount);
 
