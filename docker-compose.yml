@@ -17,6 +17,7 @@ services:
   backend:
     image:  mcr.microsoft.com/dotnet/sdk:8.0
     working_dir: /app
+    restart: always
     volumes:
       - ./RapidPay/src:/app
     ports:
