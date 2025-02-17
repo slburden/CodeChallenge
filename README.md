@@ -102,4 +102,20 @@ RapidPay provides the following API endpoints:
    ```
 
 ## Details
+### Architecture  
+RapidPay is split into four separate projects:  
+
+- **RapidPay.Api**  
+  > Provides controllers that act as an interface between the API user and the RapidPay.Business layer.  
+
+- **RapidPay.Business**  
+  > Serves as the core business logic layer, handling all application rules and operations. It utilizes repositories from the RapidPay.DataAccess layer to interact with the underlying data.  
+
+- **RapidPay.DataAccess**  
+  > Uses Dapper ORM to provide Repositorys that can be used by the Business layer to access the database.
+
+- **RapidPay.Models**  
+  > A centralized location that contains models used throughout the application.
+
+
 
