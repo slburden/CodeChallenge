@@ -8,7 +8,7 @@ public interface ICardService
 
     Task<CardDetails> GetCard(string number);
 
-    Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, decimal amount);
+    Task<AuthorizationResult> IsPaymentAuthorized(Payment payment);
 
     Task<CardDetails> UpdateCard(CardDetails card);
 

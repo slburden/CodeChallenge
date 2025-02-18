@@ -48,11 +48,16 @@ RapidPay provides the following API endpoints:
       "creditLimit": 34567
    }
    ```
-- **GET /api/Card/isauthorized** - Checks to see if a card is authorized for an amount.
+- **POST /api/Card/isauthorized** - Checks to see if a card is authorized for an amount.
    ```sh
-   curl -X 'GET' \
-   'http://localhost:5034/api/Card/isauthorized?cardnumber=688720921633742&amount=500' \
-   -H 'accept: */*'
+   curl -X 'POST' \
+   'http://localhost:5034/api/Card/isauthorized' \
+   -H 'accept: */*' \
+   -H 'Content-Type: application/json' \
+   -d '{
+   "cardNumber": "688720921633742",
+   "amount": 300
+   }'
    ```
    ```json
    {

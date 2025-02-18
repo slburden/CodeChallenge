@@ -30,10 +30,10 @@ namespace RapidPay.Api.Controllers
             return Ok(await _cardService.GetBalance(cardnumber));
         }
 
-        [HttpGet("isauthorized")]
-        public async Task<IActionResult> Authorized([FromQuery] string cardnumber, decimal amount)
+        [HttpPost("isauthorized")]
+        public async Task<IActionResult> Authorized([FromBody] Payment payment)
         {
-            return Ok(await _cardService.IsPaymentAuthorized(cardnumber, amount));
+            return Ok(await _cardService.IsPaymentAuthorized(payment));
         }
 
         [HttpPost("pay")]

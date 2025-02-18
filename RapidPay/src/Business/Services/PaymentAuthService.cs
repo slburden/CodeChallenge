@@ -19,9 +19,9 @@ public class PaymentAuthService : IPaymentAuthService
         _transactionService = transactionService;
     }
 
-    public async Task<AuthorizationResult> AuthorizeCard(string cardnumber, decimal amount)
+    public async Task<AuthorizationResult> AuthorizeCard(Payment payment)
     {
-        var card = await _cardRepository.GetCardByNumber(cardnumber);
+        var card = await _cardRepository.GetCardByNumber(payment.CardNumber);
         var result = new AuthorizationResult()
         {
             Authorized = true
@@ -38,7 +38,7 @@ public class PaymentAuthService : IPaymentAuthService
 
         if (card.Limit != null)
         {
-            if (card.Balance + amount > card.Limit)
+            if (card.Balance + payment.Amount > card.Limit)
             {
                 result = new AuthorizationResult()
                 {
@@ -48,7 +48,7 @@ public class PaymentAuthService : IPaymentAuthService
             }
         }
 
-        if (result.Authorized && await _transactionService.TransactionExists(cardnumber, amount))
+        if (result.Authorized && await _transactionService.TransactionExists(payment.CardNumber, payment.Amount))
         {
             result = new AuthorizationResult
             {
@@ -60,7 +60,7 @@ public class PaymentAuthService : IPaymentAuthService
         await _authAuditRepository.InsertAudit(new AuthAuditRecord()
         {
             CardNumber = card.Number,
-            Amount = amount,
+            Amount = payment.Amount,
             Approved = result.Authorized,
             DenialReason = result.DenialReason
         });

@@ -64,9 +64,9 @@ public class CardService : ICardService
         return card;
     }
 
-    public async Task<AuthorizationResult> IsPaymentAuthorized(string cardnumber, decimal amount)
+    public async Task<AuthorizationResult> IsPaymentAuthorized(Payment payment)
     {
-        return await _paymentAuthService.AuthorizeCard(cardnumber, amount);
+        return await _paymentAuthService.AuthorizeCard(payment);
     }
 
     public async Task<CardDetails> MakePayment(Payment payment)

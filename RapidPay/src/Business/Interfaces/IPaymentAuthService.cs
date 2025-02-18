@@ -4,5 +4,5 @@ namespace RapidPay.Business.Interfaces;
 
 public interface IPaymentAuthService
 {
-    Task<AuthorizationResult> AuthorizeCard(string cardnumber, decimal amount);
+    Task<AuthorizationResult> AuthorizeCard(Payment payment);
 }

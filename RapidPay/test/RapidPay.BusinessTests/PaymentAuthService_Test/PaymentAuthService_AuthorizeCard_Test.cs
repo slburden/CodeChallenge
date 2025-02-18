@@ -79,7 +79,12 @@ namespace Tests
         {
             var service = new PaymentAuthService(_authAuditService, _cardRepository, _transactionService);
 
-            var results = await service.AuthorizeCard(cardnum, amount);
+            var payment = new Payment(){
+                CardNumber = cardnum,
+                Amount = amount
+            };
+
+            var results = await service.AuthorizeCard(payment);
 
             Assert.That(results.Authorized, Is.EqualTo(exppected));
         }
