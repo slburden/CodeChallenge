@@ -24,10 +24,10 @@ namespace RapidPay.Api.Controllers
             return Ok(await _cardService.CreateNewCard(limit));
         }
 
-        [HttpGet("balance")]
-        public async Task<IActionResult> GetBalance([FromQuery] string cardnumber)
+        [HttpPost("balance")]
+        public async Task<IActionResult> GetBalance([FromBody] BalanceRequest balance)
         {
-            return Ok(await _cardService.GetBalance(cardnumber));
+            return Ok(await _cardService.GetBalance(balance.CardNumber));
         }
 
         [HttpPost("isauthorized")]

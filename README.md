@@ -37,9 +37,13 @@ RapidPay provides the following API endpoints:
    ```
 - **GET /api/Card/balance** - Get the balance and limit details of a specifc card.
    ```sh
-   curl -X 'GET' \
-  'http://localhost:5034/api/Card/balance?cardnumber=688720921633742' \
-  -H 'accept: */*'
+   curl -X 'POST' \
+   'http://localhost:5034/api/Card/balance' \
+   -H 'accept: */*' \
+   -H 'Content-Type: application/json' \
+   -d '{
+   "cardNumber": "688720921633742"
+   }'
    ```
    ```json
    {
