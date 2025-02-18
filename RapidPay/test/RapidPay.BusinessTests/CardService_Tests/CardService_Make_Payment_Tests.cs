@@ -14,8 +14,9 @@ public class CardService_Make_Payment_Tests
 {
     private Mock<ICardRepository> _cardRepositoryMock;
     private Mock<IPaymentAuthService> _paymentAuthServiceMock;
-
     private Mock<IUFEService> _ufeServiceMock;
+    private Mock<ITransactionService> _trasactionService;
+
 
     private readonly decimal _expectedRate = 1.414m;
 
@@ -71,6 +72,7 @@ public class CardService_Make_Payment_Tests
             };
             return Task.FromResult(rate);
         });
+        _trasactionService = new Mock<ITransactionService>();
     }
 
     [Test]
@@ -79,7 +81,7 @@ public class CardService_Make_Payment_Tests
     [TestCase("599180382130527", 225.0, 1376.5)]
     public async Task Make_Payment_Test(string cardnum, decimal startBalance, decimal amount)
     {
-        var cardService = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
+        var cardService = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object, _trasactionService.Object);
 
         var result = await cardService.MakePayment(new Payment()
         {

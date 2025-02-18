@@ -13,8 +13,9 @@ namespace RapidPay.BusinessTests
     {
         private Mock<ICardRepository> _cardRepositoryMock;
         private Mock<IPaymentAuthService> _paymentAuthServiceMock;
-
         private Mock<IUFEService> _ufeServiceMock;
+        private Mock<ITransactionService> _trasactionService;
+
 
         [SetUp]
         public void Setup()
@@ -44,12 +45,13 @@ namespace RapidPay.BusinessTests
 
             _paymentAuthServiceMock = new Mock<IPaymentAuthService>();
             _ufeServiceMock = new Mock<IUFEService>();
+            _trasactionService = new Mock<ITransactionService>();
         }
 
         [Test]
         public async Task Card_Limit_Has_Null_Limit_Test()
         {
-            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
+            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object, _trasactionService.Object);
 
             var card = await service.CreateNewCard(null);
 
@@ -62,7 +64,7 @@ namespace RapidPay.BusinessTests
         [TestCase(null)]
         public async Task Card_Limit_Has_Value_Limit_Test(decimal? expected)
         {
-            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
+            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object, _trasactionService.Object);
 
             var card = await service.CreateNewCard(expected);
 

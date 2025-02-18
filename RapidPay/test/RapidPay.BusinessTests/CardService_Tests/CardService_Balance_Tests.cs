@@ -18,6 +18,8 @@ namespace Tests
 
         private Mock<IUFEService> _ufeServiceMock;
 
+        private Mock<ITransactionService> _trasactionService;
+
         [SetUp]
         public void Setup()
         {
@@ -61,6 +63,8 @@ namespace Tests
 
             _paymentAuthServiceMock = new Mock<IPaymentAuthService>();
             _ufeServiceMock = new Mock<IUFEService>();
+            _trasactionService = new Mock<ITransactionService>();
+
         }
 
         [Test]
@@ -69,7 +73,10 @@ namespace Tests
         [TestCase("599180382130527", 225.0, 1000)]
         public async Task Card_Get_Balance_Test(string cardnum, decimal balance, decimal? limit)
         {
-            var service = new CardService(_cardRepositoryMock.Object, _paymentAuthServiceMock.Object, _ufeServiceMock.Object);
+            var service = new CardService(_cardRepositoryMock.Object, 
+                _paymentAuthServiceMock.Object, 
+                _ufeServiceMock.Object,
+                _trasactionService.Object);
 
 
             var result = await service.GetBalance(cardnum);
