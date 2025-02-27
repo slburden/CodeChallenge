@@ -20,7 +20,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ./RapidPay/RapidPay.sln 
 
       - name: Build application
         run: dotnet build --configuration Release --no-restore ./RapidPay/src/Api/Api.csproj
