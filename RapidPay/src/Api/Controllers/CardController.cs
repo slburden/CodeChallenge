@@ -9,7 +9,7 @@ namespace RapidPay.Api.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        public ICardService _cardService;
+        private readonly ICardService _cardService;
         private readonly ILogger<CardController> _logger;
 
         public CardController(ICardService cardService, ILogger<CardController> logger)

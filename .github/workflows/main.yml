@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore ./RapidPay/RapidPay.sln 
 
       - name: Build application
-        run: dotnet build --configuration Release --no-restore ./RapidPay/src/Api/Api.csproj
+        run: dotnet build --configuration Release --no-restore ./RapidPay/RapidPay.sln
 
       - name: Run tests
         run: dotnet test --configuration Release --no-build --verbosity normal ./RapidPay/RapidPay.sln
