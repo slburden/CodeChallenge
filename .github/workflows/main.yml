@@ -9,7 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      SolutionFile: ./RapidPay/RapidPay.sln
+      ApiProjectFile: ./RapidPay/src/Api/Api.csproj
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,16 +22,16 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore ./RapidPay/RapidPay.sln 
+        run: dotnet restore $SolutionFile
 
       - name: Build application
-        run: dotnet build --configuration Release --no-restore ./RapidPay/RapidPay.sln
+        run: dotnet build --configuration Release --no-restore $SolutionFile
 
       - name: Run tests
-        run: dotnet test --configuration Release --no-build --verbosity normal ./RapidPay/RapidPay.sln
+        run: dotnet test --configuration Release --no-build --verbosity normal $SolutionFile
 
       - name: Publish application
-        run: dotnet publish -c Release -o ./publish ./RapidPay/src/Api/Api.csproj
+        run: dotnet publish -c Release -o ./publish $ApiProjectFile
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
