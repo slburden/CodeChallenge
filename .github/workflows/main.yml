@@ -26,10 +26,10 @@ jobs:
         run: dotnet build --configuration Release --no-restore ./RapidPay/src/Api/Api.csproj
 
       - name: Run tests
-        run: dotnet test --configuration Release --no-build --verbosity normal
+        run: dotnet test --configuration Release --no-build --verbosity normal ./RapidPay/RapidPay.sln
 
       - name: Publish application
-        run: dotnet publish -c Release -o ./publish
+        run: dotnet publish -c Release -o ./publish ./RapidPay/src/Api/Api.csproj
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
